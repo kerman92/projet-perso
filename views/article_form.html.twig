@@ -1,0 +1,43 @@
+{% extends 'layout.html.twig' %}
+{% form_theme articleForm 'bootstrap_3_horizontal_layout.html.twig' %}
+{% set adminMenu = true %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <h2 class="text-center">{{ block('title') }}</h2>
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="alert alert-success">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
+    <div class="well">
+        {{ form_start(articleForm) }}
+
+        {{ form_row(articleForm.title)}}
+
+        {{ form_row(articleForm.content, { 'attr':  {
+            'class': 'mceEditor',
+
+        }}) }}
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-3">
+                <input type="submit" class="btn btn-primary" value="Save" />
+            </div>
+        </div>
+        {{ form_end(articleForm) }}
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ asset('/lib/tinymce/tinymce.min.js') }}"></script>
+<script type="text/javascript">
+    tinyMCE.init({
+        selector : '.mceEditor'
+    });
+</script>
+
+{% endblock %}
+
